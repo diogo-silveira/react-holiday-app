@@ -34,19 +34,13 @@ class Holiday extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
-
-    handleCountryOnChange = (event) => {
-        console.log(this.state.selectedCountry);
-        console.log("Event" + event);
-        this.setState({ selectedCountry: event.target.value});
-    }
    
     handleSubmit = (event) => {
         console.log(event);
         event.preventDefault();
     }
 
-    handleInputChange(event) {
+    handleInputChange = (event) => {
         const target = event.target;
         const value = target.name === 'isLongWeekend' ? target.checked : target.value;
         const name = target.name;
