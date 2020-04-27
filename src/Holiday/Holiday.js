@@ -33,6 +33,8 @@ class Holiday extends React.Component {
             isLongWeekend: true,
             firstName: '',
             countryList: Array(Country),
+            filteredCountryList: Array(Country),
+            searchCountry: '',
             errors: { firstName: '', selectedCountry: '' }
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -41,7 +43,7 @@ class Holiday extends React.Component {
    
     componentDidMount(){
         getHolidays()
-        .then((res) => this.setState({countryList: res}))
+        .then((res) => this.setState({countryList: res, filteredCountryList: res }))
         .catch(err => console.log(err));
     }
 
@@ -53,6 +55,28 @@ class Holiday extends React.Component {
         } else {
           console.error('Invalid Form')
         }
+    }
+
+    searchCountryFilter = (event) => {
+        const { countryList }= this.state;
+        const { value } = event.target;
+
+        let newList = [];
+
+        if (value !== "") {
+            let currentList = countryList;
+            newList = currentList.filter(item => {
+                const lc = item.value.toLowerCase();
+                const filter = value.toLowerCase();
+                return lc.includes(filter);
+            });
+        } else {
+            newList = countryList;
+        }
+
+        this.setState({
+            filteredCountryList: newList
+        });
     }
 
     handleInputChange = (event) => {
@@ -77,18 +101,31 @@ class Holiday extends React.Component {
             errors,
             [name]: val
         });
-      }
+    }
+
+    CountryFilter = () => {
+       return (
+            <div className="col-4">
+                <input className="form-control form-control-sm" name="countryFilter" type="text" placeholder="Search..." onChange={ this.searchCountryFilter }></input>
+            </div>
+        );
+    }
       
     SelectCountry = () => {
-        const { countryList, selectedCountry, errors } = this.state;
-        const countryItems = countryList.map((x) => 
+        const { filteredCountryList, selectedCountry, errors } = this.state;
+        const countryItems = filteredCountryList.map((x) => 
             <option key={ x.key } value={ x.key }> { x.value } </option>
         );
 
         return (  
             <div className="container row px-5">
                 <div className="col-12 form-group text-left">
-                    <span>Select your country</span>
+                    <div class="justify-content-between pb-1 pr-0 row">
+                        <div class="col-6">
+                            <span>Select your country</span>
+                        </div>
+                        { this.CountryFilter() }
+                    </div>
                     <select name="selectedCountry" value={ selectedCountry } onChange={ this.handleInputChange }  className="custom-select" size="3">
                         <option value="" defaultValue>Open this select menu</option>
                         {countryItems}
