@@ -1,6 +1,7 @@
 import React from 'react';
 import './Holiday.css';
 import { getHolidays, Country } from './Repository';
+import { validateForm } from '../Util/Helper'
 
 const Title = () => {
     return (
@@ -28,10 +29,11 @@ class Holiday extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedCountry: 'default',
+            selectedCountry: '',
             isLongWeekend: true,
             firstName: '',
-            countryList: Array(Country)
+            countryList: Array(Country),
+            errors: { firstName: '', selectedCountry: '' }
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -46,32 +48,52 @@ class Holiday extends React.Component {
     handleSubmit = (event) => {
         console.log(event);
         event.preventDefault();
+        if(validateForm(this.state.errors)) {
+          console.info('Valid Form')
+        } else {
+          console.error('Invalid Form')
+        }
     }
 
     handleInputChange = (event) => {
-        const target = event.target;
-        const value = target.name === 'isLongWeekend' ? target.checked : target.value;
-        const name = target.name;
-        console.log(name+'='+value);
+        const { name, value, checked } = event.target;
+        const val = name === 'isLongWeekend' ? checked : value;
+        let errors = this.state.errors;
+
+        switch(name) {
+            case 'firstName':
+                errors.firstName = 
+                    value.length <= 2 ? 'First name is required' : '';
+            break;
+            case 'selectedCountry':
+                errors.selectedCountry = 
+                    value.length <= 1 ? 'Select a holiday destination' : '';
+            break;
+            default:
+            break;
+        }
+
         this.setState({
-          [name]: value
+            errors,
+            [name]: val
         });
       }
       
     SelectCountry = () => {
-        const { countryList, ...rest } = this.state;
-        const countryItems = countryList.map( (x) => 
+        const { countryList, selectedCountry, errors } = this.state;
+        const countryItems = countryList.map((x) => 
             <option key={ x.key } value={ x.key }> { x.value } </option>
-        ) 
+        );
 
-        return (
+        return (  
             <div className="container row px-5">
                 <div className="col-12 form-group text-left">
                     <span>Select your country</span>
-                    <select name="selectedCountry" value={ rest.selectedCountry } onChange={ this.handleInputChange }  className="custom-select" size="3">
-                        <option value="default" defaultValue>Open this select menu</option>
+                    <select name="selectedCountry" value={ selectedCountry } onChange={ this.handleInputChange }  className="custom-select" size="3">
+                        <option value="" defaultValue>Open this select menu</option>
                         {countryItems}
                     </select>
+                    { errors.selectedCountry.length > 0 && <span className='pl-2 text-danger'>{errors.selectedCountry}</span>}
                 </div>
             </div>
         );
@@ -97,6 +119,7 @@ class Holiday extends React.Component {
     }
 
     FirstName = () => {
+        const {errors} = this.state;
         return (
             <div className="container row px-5">
                 <div className="col-12 form-group text-left">
@@ -105,6 +128,7 @@ class Holiday extends React.Component {
                         name="firstName"
                         onChange={ this.handleInputChange }
                         value={ this.state.firstName } type="text"/>
+                        { errors.firstName.length > 0 && <span className='pl-2 text-danger'>{errors.firstName}</span>}
                 </div>
             </div>
         );
