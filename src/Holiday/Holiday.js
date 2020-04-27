@@ -1,5 +1,6 @@
 import React from 'react';
 import './Holiday.css';
+import { getHolidays, Country } from './Repository';
 
 const Title = () => {
     return (
@@ -29,12 +30,19 @@ class Holiday extends React.Component {
         this.state = {
             selectedCountry: 'default',
             isLongWeekend: true,
-            firstName: ''            
+            firstName: '',
+            countryList: Array(Country)
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
    
+    componentDidMount(){
+        getHolidays()
+        .then((res) => this.setState({countryList: res}))
+        .catch(err => console.log(err));
+    }
+
     handleSubmit = (event) => {
         console.log(event);
         event.preventDefault();
@@ -49,19 +57,20 @@ class Holiday extends React.Component {
           [name]: value
         });
       }
-
-
+      
     SelectCountry = () => {
+        const { countryList, ...rest } = this.state;
+        const countryItems = countryList.map( (x) => 
+            <option key={ x.key } value={ x.key }> { x.value } </option>
+        ) 
+
         return (
             <div className="container row px-5">
                 <div className="col-12 form-group text-left">
                     <span>Select your country</span>
-                    <select name="selectedCountry" value={ this.state.selectedCountry } onChange={ this.handleInputChange } 
-                        className="custom-select" size="3">
+                    <select name="selectedCountry" value={ rest.selectedCountry } onChange={ this.handleInputChange }  className="custom-select" size="3">
                         <option value="default" defaultValue>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        {countryItems}
                     </select>
                 </div>
             </div>
