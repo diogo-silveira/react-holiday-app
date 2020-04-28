@@ -6,9 +6,9 @@ export const Country = {
 }
 
 export const getHolidays = () => new Promise((resolve, reject) => {
-    if(countriesList.length > 0){
+    if (countriesList.length > 0) {
         resolve(countriesList);
-    }else{
+    } else {
         reject('could not retrieve data');
     }
 });

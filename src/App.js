@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Holiday from './Holiday/Holiday';
 
-function App() {
+function Root(){
   return (
     <div className="App container-fluid h-100">
       <div className="row h-50 bg-secondary">
@@ -15,6 +15,12 @@ function App() {
         <div className="col-lg-2"></div>
       </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Root></Root>
   );
 }
 
