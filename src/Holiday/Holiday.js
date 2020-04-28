@@ -5,7 +5,7 @@ import { validateForm } from '../Util/Helper'
 
 const Title = () => {
     return (
-        <div className="row px-5">
+        <div>
             <div className="col-12 form-group pt-5 text-left">
                 <span className="h2">Thinking about next holidays?</span>
                 <hr/>
@@ -16,7 +16,7 @@ const Title = () => {
 
 const LabelEngagementQuestion = () => {
     return (
-        <div className="container row px-5">
+        <div>
             <div className="col-12 form-group text-left">
                 <span>Let's find out next public holidays for you or your family?</span>
             </div>
@@ -105,8 +105,8 @@ class Holiday extends React.Component {
 
     CountryFilter = () => {
        return (
-            <div className="col-4">
-                <input className="form-control form-control-sm" name="countryFilter" type="text" placeholder="Search..." onChange={ this.searchCountryFilter }></input>
+            <div className="col-12 col-lg-6">
+                <input className="form-control form-control-sm" name="searchCountryFilter" type="text" placeholder="Search..." onChange={ this.searchCountryFilter }></input>
             </div>
         );
     }
@@ -118,7 +118,7 @@ class Holiday extends React.Component {
         );
 
         return (  
-            <div className="container row px-5">
+            <div>
                 <div className="col-12 form-group text-left">
                     <div class="justify-content-between pb-1 pr-0 row">
                         <div class="col-6">
@@ -138,11 +138,9 @@ class Holiday extends React.Component {
 
     LongWeekend = () => {
         return (
-            <div className="container row px-5">
-                <div className="col-3 text-left">
+            <div className="d-flex">
+                <div className="col-12 col-md-6 text-left">
                     <span>Long weekend?</span>
-                </div>
-                <div className="col-9 d-flex">
                     <label className="switch">
                         <input className="primary" 
                             name="isLongWeekend"
@@ -158,7 +156,7 @@ class Holiday extends React.Component {
     FirstName = () => {
         const {errors} = this.state;
         return (
-            <div className="container row px-5">
+            <div>
                 <div className="col-12 form-group text-left">
                     <span>First name</span>
                     <input className="form-control" 
@@ -173,7 +171,7 @@ class Holiday extends React.Component {
 
     SearchButton = () => {  
         return (
-            <div className="container row px-5">
+            <div>
                 <div className="col-12 form-group text-center">
                     <button type="submit" className="btn btn-primary mb-2 px-5">Search</button>
                 </div>
