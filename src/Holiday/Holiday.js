@@ -3,7 +3,7 @@ import './Holiday.css';
 import { getHolidays, Country } from './Repository';
 import { validateForm } from '../Util/Helper'
 
-const Title = () => {
+export const Title = () => {
     return (
         <div>
             <div className="col-12 form-group pt-5 text-left">
@@ -14,7 +14,7 @@ const Title = () => {
     );
 }
 
-const LabelEngagementQuestion = () => {
+export const LabelEngagementQuestion = () => {
     return (
         <div>
             <div className="col-12 form-group text-left">
@@ -24,7 +24,7 @@ const LabelEngagementQuestion = () => {
     );
 }
 
-class Holiday extends React.Component {
+export class Holiday extends React.Component {
     
     constructor(props) {
         super(props);
@@ -185,8 +185,8 @@ class Holiday extends React.Component {
             <div className="Holiday bg-light position-absolute round rounded w-100">
                 <div className="position-relative">
                     <form onSubmit={ this.handleSubmit }>
-                        { Title() }
-                        { LabelEngagementQuestion() }
+                        <Title></Title>
+                        <LabelEngagementQuestion></LabelEngagementQuestion>
                         { this.SelectCountry() }
                         { this.LongWeekend() }
                         { this.FirstName() }
@@ -197,6 +197,4 @@ class Holiday extends React.Component {
         );
     }
 }
-
- export default Holiday;
 
